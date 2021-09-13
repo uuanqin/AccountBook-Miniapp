@@ -1,0 +1,67 @@
+{
+  "pages": [
+    "pages/notes/index",
+
+    "pages/index/index",
+    "pages/getOpenId/index",
+    "pages/getMiniProgramCode/index",
+    "pages/deployService/index",
+    "pages/uploadFile/index",
+
+    "pages/accounts/index",
+    "pages/tool/index",
+    
+    "pages/logs/logs",
+    "pages/accounts_sta/accounts_sta",
+    "pages/pre_bullet/pre_bullet",
+    "pages/bullet/bullet",
+    "pages/picAndText/picAndText",
+    "pages/picAndText/add_pAt",
+    "pages/2048/2048"
+  ],
+  "tabBar": {
+    
+    "color": "#7a7e83",
+    "selectedColor": "#3cc51f",
+    "backgroundColor": "#f8f9fb",
+    "list":[
+      {
+        "iconPath": "images/note.png",
+        "selectedIconPath": "images/note_sel.png",
+        "pagePath":"pages/notes/index",
+        "text": "笔记"
+      },
+      {
+        "iconPath": "images/account.png",
+        "selectedIconPath": "images/account_sel.png",
+        "pagePath":"pages/accounts/index",
+        "text": "记账"
+      },
+      {
+        "iconPath": "images/picAndText.png",
+        "selectedIconPath": "images/picAndText_sel.png",
+        "pagePath":"pages/picAndText/picAndText",
+        "text": "图文"
+      },
+      {
+        "iconPath": "images/tool.png",
+        "selectedIconPath": "images/tool_sel.png",
+        "pagePath":"pages/tool/index",
+        "text": "工具"
+      }
+      
+    ]
+  },
+  "useExtendedLib": {
+    "weui": true
+  },
+  "window": {
+    "backgroundColor": "#F6F6F6",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#F6F6F6",
+    "navigationBarTitleText": "记事本小程序",
+    "navigationBarTextStyle": "black"
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2"
+}

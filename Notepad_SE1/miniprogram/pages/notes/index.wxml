@@ -1,0 +1,50 @@
+<!-- 我加了id -->
+<view class="container" id="container">
+
+  <view class="header">
+    <image class="plus" src="/images/plus.png" />
+    <input class="new-todo" value="{{ input }}" placeholder="请输入要添加的事项..." auto-focus bindinput="inputChangeHandle"
+      bindconfirm="addTodoHandle" />
+      <image class="plus" src="/images/log.png"  bindtap="logPagePopup" />
+    <!--提醒功能 bug--view class="flex-row" wx:if="{{input}}">
+            <picker mode='time' start="{{input.begin}}" end="23:59" value='{{input.begin}}' bindchange='beginTime'  class="pick-time time">
+                <text>
+                    开始时间：{{input.begin}}
+                </text>
+            </picker>             
+            <label class="time"><switch class="switch" checked bindchange="switch1Change" />提醒</label>
+        <!--/view-->
+    <view class="flex-row1" wx:if="{{input.content}}">
+      <button class="btn btn-submit" formType="submit" hover-class="btn-hover">提交</button>
+      <button class="btn btn-cancel" formType="reset">清空</button>
+    </view>
+  </view>
+  <block wx:if="{{ todos.length }}">
+    <view class="todos">
+      <!-- List items should get the class `completed` when marked as completed -->
+      <view class="item{{ item.completed ? ' completed' : '' }}" wx:for="{{ todos }}" wx:key="index"
+        bindtap="toggleTodoHandle" data-index="{{ index }}">
+        <!-- completed: success, todo: circle -->
+        <icon class="checkbox" type="{{ item.completed ? 'success' : 'circle' }}" />
+        <text class="name">{{ item.name }}</text>
+        <icon class="remove" type="clear" size="16" catchtap="removeTodoHandle" data-index="{{ index }}" />
+      </view>
+    </view>
+    <view class="footer">
+      <text class="btn" bindtap="toggleAllHandle">清空</text>
+      <text wx:if="{{ leftCount }}">还剩下{{ leftCount }} 件{{ leftCount === 1 ? 'item' : 'items' }} 未完成</text>
+      <text class="btn" wx:if="{{ todos.length > leftCount }}" bindtap="clearCompletedHandle">全部完成</text>
+    </view>
+  </block>
+  <block wx:else>
+    <view class="empty">
+      <text class="title">恭喜你!</text>
+      <text class="content">你没有剩下的事情了</text>
+    </view>
+  </block>
+
+
+
+
+  
+</view>

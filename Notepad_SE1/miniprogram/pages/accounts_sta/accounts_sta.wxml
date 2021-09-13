@@ -1,0 +1,39 @@
+<view class="topBar">
+<image src="/images/statistics.png" class="icon"></image>
+  <view>
+  在{{whichYear}}年里
+</view>
+</view>
+<view class="coiBar">
+  你都花费在..
+</view>
+
+<view class="cellBox">
+  <view wx:for="{{data}}" wx:if='{{d.coi=="cost"}}' wx:key="index" wx:for-item="d" >
+    <view class="cell">
+      <view style="margin-left: 40rpx;font-size: small;">{{d.name}}</view>
+      <view style="flex-grow: 1;text-align: right;padding-right: 40rpx;font-size: small;font-weight: bold;color: rgb(114, 113, 113);">-{{d.tempSumOfAyear}} ¥</view>
+    </view>
+    <progress percent="{{d.tempSumOfAyear/sumOfCost*100}}" color="#5095ED" font-size="small" active="true"
+    style="margin:auto 20rpx;" duration="5"
+    >
+    </progress >
+  </view>
+</view>
+
+<view class="coiBar">
+  收入来源于..
+</view>
+
+<view class="cellBox">
+  <view wx:for="{{data}}" wx:if='{{d.coi=="income"}}' wx:key="index" wx:for-item="d" >
+    <view class="cell">
+      <view style="margin-left: 40rpx;font-size: small;">{{d.name}}</view>
+      <view style="flex-grow: 1;text-align: right;padding-right: 40rpx;font-size: small;font-weight: bold;color: rgb(114, 113, 113);">+{{d.tempSumOfAyear}} ¥</view>
+    </view>
+    <progress percent="{{d.tempSumOfAyear/sumOfIncome*100}}" color="#34EBB5" font-size="small" active="true"
+    style="margin:auto 20rpx;" duration="5"
+    >
+    </progress >
+  </view>
+</view>

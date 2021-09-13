@@ -1,0 +1,14 @@
+<view class="page" data-weui-theme="{{theme}}">
+	<view class="page__hd">
+		<view class="page__title">工具</view>
+		<view class="page__desc">其他功能</view>
+	</view>
+	<view class="weui-grids"  >
+		<a class="weui-grid"wx:for="{{tools}}" wx:for-item="t" wx:key="index" bindtap="{{t.bind}}">
+			<view class="weui-grid__icon">
+				<image src="{{t.image_src}}" alt></image>
+			</view>
+			<view class="weui-grid__label">{{t.name}}</view>
+		</a>
+	</view>
+</view>

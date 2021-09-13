@@ -1,0 +1,73 @@
+<view style="background-color: rgb(255, 110, 154);height: 20rpx;"></view>
+<!-- home搬迁 -->
+<view style="margin-top: 10rpx;">
+  <view style="display: flex;flex-direction: row-reverse;">
+    <image style="height: 25px; width: 25px;z-index: 999; margin-right: 20rpx;"
+      src="{{musicIcon}}" bindtap='tapSign'></image>
+  </view>
+</view>
+
+
+<!--  -->
+<view class="search-bar">
+
+  <view class="page-body">
+    <view class="page-section">
+
+      <form bindsubmit='formSubmit' >
+        <picker name="time" mode="date" value="{{date}}" start="2000-09-01" bindchange="bindDateChange">
+          <view class="weui-cells" style="margin:10rpx 20rpx">
+            <view class="weui-cell weui-cell_input" >
+              <view class="weui-cell__hd"
+                style="width: 214rpx; height: 104rpx; ">
+                <view class="weui-input"
+                  style="width: 378rpx; height: 104rpx; ">
+                  创建日期
+                </view>
+              </view>
+              <view class="weui-cell__bd">
+
+                <view class="weui-input" style="font-weight: bold;">{{date}}</view>
+
+              </view>
+            </view>
+          </view>
+        </picker>
+        <view class="weui-cells" style="margin:10rpx 20rpx">
+          <view class="sel">
+            <input class="weui-input" name="des" placeholder="关键字（选填）" placeholder-style="font-size:small"/>
+          </view>
+        </view>
+
+
+
+        <!-- 按钮 -->
+        <view class="HContainer" style="padding-top: 20rpx;padding-bottom: 20rpx;">
+          <button class="formBtn_m" style="margin: 10rpx 20rpx;" form-type="submit">搜索</button>
+          <button class="formBtn_m" style="margin: 10rpx 20rpx;" bindtap="toAdd">添加</button>
+        </view>
+      </form>
+    </view>
+  </view>
+</view>
+
+<!-- 来自history -->
+<view class="container">
+  <view wx:if="{{tasks==''}}" style="text-align: center;color: gray;">暂无记录</view>
+  <block wx:for="{{tasks}}" wx:for-item="item" wx:key="index">
+    <view class='liststyle'>
+
+      <view class='title' id='{{item.des}}'>{{item.des}}</view>
+
+
+      <view class="weui-uploader__bd">
+        <block wx:for="{{item.images}}" wx:for-item="image" wx:key="index">
+          <view class="weui-uploader__file">
+            <image class="weui-uploader__img" src="{{image}}" data-src="{{image}}" bindtap="previewImage"></image>
+          </view>
+        </block>
+      </view>
+      <view class='title' style="text-align: right;font-size: smaller;color: gray;"id='{{item.time}}'>于 {{item.time}} 保存</view>
+    </view>
+  </block>
+</view>

@@ -1,0 +1,28 @@
+.topBar{
+  text-align: center;
+  font-size: large;
+  font-weight: bolder;
+  color: white;
+  background-color:#18abf5 ;
+  padding: 70rpx 0;
+}
+
+.cell{
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+}
+
+.coiBar{
+  margin-top: 50rpx;
+  text-align: center;
+  color: gray;
+  font-size: large;
+  font-weight: bold;
+}
+
+.icon{
+  width: 100rpx;
+  height: 100rpx;
+  align-items:center;
+}

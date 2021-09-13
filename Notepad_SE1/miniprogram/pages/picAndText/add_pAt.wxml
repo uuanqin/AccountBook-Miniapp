@@ -1,0 +1,43 @@
+<template is="head" data="{{title: 'textarea'}}" />
+
+<view class="page-body">
+  <view class="page-section">
+
+    <view class="weui-cell__bd">
+      <view class="weui-uploader">
+        <view class="weui-uploader__hd">
+          <view class="weui-form__text-area" style="margin:80rpx 0">
+            <h2 class="weui-form__title">试着选几张图片</h2>
+          </view>
+          <view style="margin-left:20rpx;color: gray;">{{imageList.length}}/{{count[countIndex]}}</view>
+        </view>
+        <view class="weui-uploader__bd" style="margin:20rpx">
+          <view class="weui-uploader__files">
+            <block wx:for="{{imageList}}" wx:for-item="image">
+              <view class="weui-uploader__file">
+                <image class="weui-uploader__img" src="{{image}}" data-src="{{image}}" bindtap="previewImage"></image>
+              </view>
+            </block>
+          </view>
+          <view class="weui-uploader__input-box">
+            <view class="weui-uploader__input" bindtap="chooseImage"></view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+
+    <form bindsubmit='formSubmit'>
+      <view class="textarea-wrp">
+        <textarea bindblur='onInputChange' style="height: 6em " name="value" value="{{value}}" placeholder="来记点东西吧！" />
+      </view>
+      <view class="HContainer" style="padding-top: 20rpx;padding-bottom: 20rpx;">
+        <button class="formBtn_m" style="margin: 10rpx 20rpx;" formType="submit">保存</button>
+        <button class="formBtn_m" style="margin: 10rpx 20rpx;" bindtap="todemo">取消</button>
+      </view>
+    </form>
+    <!-- <view class="text-history" bindtap="toselectterm">看看历史？</view> -->
+
+  </view>
+
+</view>

@@ -1,0 +1,6 @@
+<!--弹幕上单文字-->
+<view class="barrage-fly" style="display: block; width: 750rpx; height: 100%; box-sizing: border-box; left: 0rpx; top: 0rpx" bindtap="back">
+  <view class="barrage-textFly" style="color:{{barrage_style.barrage_shoottextColor}};top:{{barrage_style.barrageText_height}}px;">
+    <text class='textItem' wx:for="{{barrage_style.barrage_shootText}}" wx:key="unique">{{item}}</text>
+  </view>
+</view>
