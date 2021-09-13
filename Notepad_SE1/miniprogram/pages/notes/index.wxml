@@ -3,7 +3,7 @@
 
   <view class="header">
     <image class="plus" src="/images/plus.png" />
-    <input class="new-todo" value="{{ input }}" placeholder="请输入要添加的事项..." auto-focus bindinput="inputChangeHandle"
+    <input class="new-todo" value="{{ input }}" placeholder="请输入要添加的事项..." bindinput="inputChangeHandle"
       bindconfirm="addTodoHandle" />
       <image class="plus" src="/images/log.png"  bindtap="logPagePopup" />
     <!--提醒功能 bug--view class="flex-row" wx:if="{{input}}">

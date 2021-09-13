@@ -48,8 +48,6 @@ image {
   overflow: hidden
 }
 
-
-
 .weui-grid {
   position: relative;
   float: left;

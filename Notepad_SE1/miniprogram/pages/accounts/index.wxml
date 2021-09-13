@@ -1,10 +1,9 @@
 <view>
 
-  <view class="topBar" style="display: flex;flex-direction: column;text-align: left;"
-    wx:if="{{haveGetOpenId}}">
+  <view class="topBar" style="display: flex;flex-direction: column;text-align: left;" wx:if="{{haveGetOpenId}}">
     <view style="display: flex;flex-direction: row;position: relative;">
       <view style="font-size: 30rpx;margin-top: 40rpx;margin-left: 20rpx;">
-      年份
+        年份
         <picker value="{{yearsIdx}}" range="{{years}}" bindchange="bindPickerChange"
           style="font-size: 50rpx; width: 180rpx; height: 106rpx;font-weight: 500; font-weight: bold;color: white;">
           {{emptyDatabase?"----":years[yearsIdx]}}</picker>
@@ -20,10 +19,10 @@
         <image class="icon" src="/images/statistics.png" bindtap="toStatistics"></image>
       </view>
     </view>
-    <view>
-      <mp-sticky offset-top="16">
-        <button size="mini" type="primary" style="margin-left:290rpx; background-color: #008F7A"
-          bindtap="writeABillPopup">记一笔</button>
+    <view >
+      <mp-sticky offset-top="16" >
+        <button size="mini" type="primary" style="background-color: #008F7A;margin-left: 145px;"
+          bindtap="writeABillPopup">记账</button>
       </mp-sticky>
 
     </view>
@@ -162,10 +161,23 @@
         <view class="titleHeader">备注</view>
         <input name="remark" class="inputBox" placeholder="请输入备注" value="{{initInput}}" />
       </view>
+      <!-- 单选框 -->
+      <view>
+        <checkbox-group name="checkbox">
+          <label>
+            <checkbox value="mutiBills" class="checkbox" checked="true" />多笔记账模式
+
+          </label>
+        </checkbox-group>
+      </view>
       <!-- 表单按钮 -->
-      <view class="HContainer" style="padding-left:20rpx;padding-top: 60rpx;padding-bottom: 20rpx;">
-        <button class="formBtn" form-type="submit">确定</button>
-        <button class="formBtn" style="margin: 10rpx 20rpx;" bindtap="exitPage">取消</button>
+      <view class="HContainer" style="padding-left:20rpx;padding-bottom: 20rpx;">
+        <button class="formBtn" form-type="submit">提交</button>
+        <button class="formBtn" style="margin: 10rpx 20rpx;" bindtap="formCancel">关闭</button>
+      </view>
+      <!-- 提示文字 -->
+      <view wx:if="{{addBillsNum>0}}" style="color: #0051e7;font-size: small;font-weight: bold;text-align: left;margin-left: 20rpx;">{{addBillsNum}}笔账目添加成功！
+      
       </view>
     </form>
   </view>

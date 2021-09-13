@@ -36,13 +36,18 @@
 }
 
 .typeBox{
+  /* position: relative; */
   display: flex;
   flex-direction: row;
   justify-content: space-around;
 }
 
 .typeBtn{
-  padding:10rpx 10rpx
+  padding:10rpx 10rpx;
+  /* width: 25%;
+  box-sizing: border-box;
+  float: left; */
+  /* position: relative; */
 }
 
 .typeImg{
@@ -71,4 +76,8 @@
   margin-top: 40rpx;
   margin-left: 80rpx;
   /* color: white; */
+}
+
+.checkbox{
+  margin: 20rpx 20rpx;
 }
