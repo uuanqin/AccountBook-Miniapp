@@ -6,31 +6,31 @@ Page({
         "image_src":"/images/bullet.png",
         "bind":"jumpToBullet"
       },
-      {
-        "name":"2048",
-        "image_src":"/images/2048.png",
-        "bind":"jumpTo2048"
-      },
-      {
-        "name":"手电",
-        "image_src":"/images/flashlight.png",
-        "bind":"commingSoon"
-      },
-      {
-        "name":"日期提醒",
-        "image_src":"/images/calendar.png",
-        "bind":"commingSoon"
-      },
-      {
-        "name":"秒表",
-        "image_src":"/images/watch.png",
-        "bind":"commingSoon"
-      },
-      {
-        "name":"天气",
-        "image_src":"/images/weather.png",
-        "bind":"commingSoon"
-      },
+      // {
+      //   "name":"2048",
+      //   "image_src":"/images/2048.png",
+      //   "bind":"jumpTo2048"
+      // },
+      // {
+      //   "name":"手电",
+      //   "image_src":"/images/flashlight.png",
+      //   "bind":"commingSoon"
+      // },
+      // {
+      //   "name":"日期提醒",
+      //   "image_src":"/images/calendar.png",
+      //   "bind":"commingSoon"
+      // },
+      // {
+      //   "name":"秒表",
+      //   "image_src":"/images/watch.png",
+      //   "bind":"commingSoon"
+      // },
+      // {
+      //   "name":"天气",
+      //   "image_src":"/images/weather.png",
+      //   "bind":"commingSoon"
+      // },
       
     ]
   },

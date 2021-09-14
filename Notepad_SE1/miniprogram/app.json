@@ -16,8 +16,8 @@
     "pages/pre_bullet/pre_bullet",
     "pages/bullet/bullet",
     "pages/picAndText/picAndText",
-    "pages/picAndText/add_pAt",
-    "pages/2048/2048"
+    "pages/picAndText/add_pAt"
+    
   ],
   "tabBar": {
     
