@@ -1,76 +1,86 @@
-.topBar{
+.topBar {
   background-color: #18abf5;
 }
 
-.HContainer{
+.HContainer {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
 }
 
-.inputBox{
+.inputBox {
   background-color: white;
   padding: 30rpx 20rpx;
   margin: 0rpx 20rpx;
 }
 
-.formBtn{  
+.formBtn {
   margin: 10rpx 50rpx;
   background-color: #656DC8;
   color: #ffffff;
 }
-.formBtn_m{
+
+.formBtn_m {
   margin: 10rpx 50rpx;
   background-color: #f8c10e;
   color: #ffffff;
 }
-.formBtn_d{
+
+.formBtn_d {
   margin: 10rpx 50rpx;
   background-color: #f80e48;
   color: #ffffff;
 }
-.titleHeader{
+
+.titleHeader {
   font-size: 30rpx;
-  padding-top: 20rpx ;
+  padding-top: 20rpx;
   margin-left: 20rpx;
 }
 
-.typeBox{
-  /* position: relative; */
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
+.typeBox {
+  position: relative;
+  margin: 0 10rpx;
+  /* display: flex; */
+  /* flex-direction: row; */
+  /* justify-content: space-around; */
 }
 
-.typeBtn{
-  padding:10rpx 10rpx;
-  /* width: 25%;
+.typeBtn {
+  padding: 10rpx 20rpx;
+  width: 22.333%;
   box-sizing: border-box;
-  float: left; */
-  /* position: relative; */
+  float: left;
+  position: relative;
+  border-radius: 10rpx;
+  margin: 8rpx 10rpx;
+  text-align: center;
+  font-weight: bold;
 }
 
-.typeImg{
+.typeImg {
   height: 130rpx;
   width: 130rpx;
   display: flex;
   margin: 0 auto;
 }
 
-.promptText{
-  text-align:center;
-  margin-top: 40rpx;
-  font-size:smaller;
-  color:"gray"
+.promptText {
+  /* text-align: center; */
+  /* margin-top: 45rpx; */
+  padding-top: 20rpx;
+  font-size: smaller;
+  color: white
 }
 
-.icon{
-  width: 50rpx;
-  height: 50rpx;
-  /* align-items:right; */
+.icon {
+  width: 60rpx;
+  height: 60rpx;
+  /* align-itemsright; */
   /* float: right; */
 }
-.dayCoI{
+
+.dayCoI {
   font-size: 30rpx;
   /* text-align: center; */
   margin-top: 40rpx;
@@ -78,6 +88,45 @@
   /* color: white; */
 }
 
-.checkbox{
+.checkbox {
   margin: 20rpx 20rpx;
+}
+
+.monthStatistic-coi {
+  color: white;
+  font-size: small;
+  font-weight: bold;
+  border-radius: 5px;
+  width: 18px;
+  text-align: center;
+  padding: 1rpx 2rpx;
+  margin: 4rpx 0rpx 7rpx 20rpx;
+  height: 22px;
+}
+
+.monthStatistic-money {
+  width: 75px;
+  padding: 3px;
+}
+
+.stickyType-popup {
+  position: sticky;
+  position: -webkit-sticky;
+  height: 2px;
+  background-color: rgba(220, 220, 220, 0);
+  /* margin-top: 30rpx; */
+  top: 94%;
+  z-index: 99;
+}
+
+.stickyType-monthBar {
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0rpx;
+  z-index: 88;
+}
+
+.cellStyle {
+  background-color: white;
+  border-radius: 20rpx;
 }

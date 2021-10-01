@@ -20,6 +20,9 @@ Page({
       if(obj[keys[i]].coi=="cost")sc+=obj[keys[i]].tempSumOfAyear
       else si+=obj[keys[i]].tempSumOfAyear
     }
+
+    sc=Number(sc.toFixed(2))
+    si=Number(si.toFixed(2))
     console.log("sc=",sc,"si=",si)
 
     this.setData({

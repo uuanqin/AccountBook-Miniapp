@@ -1,10 +1,12 @@
 const app = getApp()
-const { envList } = require('../../envList.js')
+const {
+  envList
+} = require('../../envList.js')
 Page({
   data: {
     //从getOpenID搬迁
     showUploadTip: false,
-    haveGetOpenId: false,
+    // haveGetOpenId: false,
     envId: '',
     openId: '',
     envList,
@@ -18,53 +20,17 @@ Page({
 
     emptyYearPage: true,
 
-    dayIncome: 0,
-    dayCost: 0,
+    // dayIncome: 0,
+    // dayCost: 0,
     monthsCost: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     monthsIncome: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-
+    monthsNet: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 
     // 支出的项目
-    costTypeList: [{
-        "sym": "food",
-        "name": "餐饮",
-      },
-      {
-        "sym": "dUse",
-        "name": "日用",
-      },
-      {
-        "sym": "trans",
-        "name": "交通",
-
-      },
-      {
-        "sym": "ent",
-        "name": "娱乐",
-      },
-      {
-        "sym": "dona",
-        "name": "捐赠",
-      },
-      // {
-      //   "sym": "medi",
-      //   "name": "医疗",
-      // }
-    ],
+    costTypeList: [],
     //收入的项目
-    incomeTypeList: [{
-        "sym": "salary",
-        "name": "工资"
-      },
-      {
-        "sym": "bonus",
-        "name": "奖金"
-      },
-      {
-        "sym": "monMan",
-        "name": "理财"
-      },
-    ],
+    incomeTypeList: [],
+
     TypeKeyPair: {
       "food": {
         "name": "餐饮",
@@ -106,11 +72,41 @@ Page({
         "coi": "cost",
         "tempSumOfAyear": 0
       },
-      // "medi": {
-      //   "name": "医疗",
-      //   "coi": "cost",
-      //   "tempSumOfAyear": 0
-      // }
+      "medi": {
+        "name": "医疗",
+        "coi": "cost",
+        "tempSumOfAyear": 0
+      },
+      "dress": {
+        "name": "服饰",
+        "coi": "cost",
+        "tempSumOfAyear": 0
+      },
+      "edu": {
+        "name": "教育",
+        "coi": "cost",
+        "tempSumOfAyear": 0
+      },
+      "fee": {
+        "name": "缴费",
+        "coi": "cost",
+        "tempSumOfAyear": 0
+      },
+      "trade": {
+        "name": "生意",
+        "coi": "income",
+        "tempSumOfAyear": 0
+      },
+      "refund": {
+        "name": "退款",
+        "coi": "income",
+        "tempSumOfAyear": 0
+      },
+      "claim": {
+        "name": "理赔",
+        "coi": "income",
+        "tempSumOfAyear": 0
+      },
     },
 
     slideButtons: [{
@@ -165,6 +161,8 @@ Page({
 
     // a_year_bill_data:[],//集合
     a_year_bill_data_Arr: [], //数组
+
+    // windowHeight:0,
 
   },
 
@@ -223,18 +221,18 @@ Page({
     wx.showLoading({
       title: '',
     })
-   wx.cloud.callFunction({
+    wx.cloud.callFunction({
       name: 'quickstartFunctions',
       config: {
         env: this.data.envId
       },
       data: {
         type: 'selectRecord',
-        year : that.data.years[yearsIdx]
+        year: that.data.years[yearsIdx]
       }
     }).then((res) => {
-      console.log("返回的数据",res)
-      
+      console.log("返回的数据", res)
+
       console.log("list有啥", res.result.data.length)
 
       if (res.result.data.length != 0) {
@@ -251,8 +249,8 @@ Page({
         var tMsIc = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
         // 既然刷新页面就应该重新计算
-        var dayCost = 0
-        var dayIncome = 0
+        // var dayCost = 0
+        // var dayIncome = 0
         // console.log("执行到这里-1",dayCost,dayIncome)
         ///////////////////////////////////////////////每条信息的循环/////////////////////////////////////////////
         // console.log("执行到这里",res.result.data.length)
@@ -265,11 +263,10 @@ Page({
           yearTypeStatistic[keysOfTypePair[i]].tempSumOfAyear = 0
         }
         for (i = 0; i < res.result.data.length; i++) {
-          // console.log("能不能进入循环？")
+
 
           //年份统计，年度分类数据
           yearTypeStatistic[res.result.data[i].type].tempSumOfAyear += res.result.data[i].money
-          // console.log("come on !!!")
 
 
           //准备好month数组，收集出现过的月份          
@@ -279,29 +276,79 @@ Page({
           a_year_bill_data[Number(res.result.data[i].month) - 1].add(res.result.data[i]) //坑坑！！！this.data!!!! //再次坑坑“-1”
 
           //每月收支统计
+          // var moneyToFixed = 0;
           if (res.result.data[i].coi == "cost") {
             tMsCt[Number(res.result.data[i].month) - 1] += res.result.data[i].money;
+            // tMsCt[Number(res.result.data[i].month) - 1] = Number(moneyToFixed.toFixed(2))
           } else {
             tMsIc[Number(res.result.data[i].month) - 1] += res.result.data[i].money;
+            // tMsIc[Number(res.result.data[i].month) - 1] = Number(moneyToFixed.toFixed(2))
           }
 
           //今日cost and income
-          if (res.result.data[i].year + "-" + res.result.data[i].month + "-" + res.result.data[i].day == that.data.today) {
-            if (res.result.data[i].coi == "cost") dayCost += res.result.data[i].money
-            else dayIncome += res.result.data[i].money
-          }
+          // if (res.result.data[i].year + "-" + res.result.data[i].month + "-" + res.result.data[i].day == that.data.today) {
+          //   if (res.result.data[i].coi == "cost") dayCost += res.result.data[i].money
+          //   else dayIncome += res.result.data[i].money
+          // }
         }
+        //////小数点处理///////
+        //处理年度分类统计中的小数点
+        var keys = Object.keys(yearTypeStatistic)
+        for (let i = 0; i < keys.length; i++) {
+          yearTypeStatistic[keys[i]].tempSumOfAyear = Number(yearTypeStatistic[keys[i]].tempSumOfAyear.toFixed(2))
+        }
+
+        //每月收支统计数组涉及的月份是一样的
+        // keys =Object.keys(tMsCt)
+        var tMsNet = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        for (let i = 0; i < 12; i++) {
+          tMsCt[i] = Number(tMsCt[i].toFixed(2))
+          tMsIc[i] = Number(tMsIc[i].toFixed(2))
+          tMsNet[i]=Number((-tMsCt[i]+tMsIc[i]).toFixed(2))
+        }
+        //////小数点处理结束/////////
+
         ////////////////////////////////////////////  end for  /////////////////////////////////////////////////////////
 
+        //集合转数组
         let tempArrArr = new Array()
         for (i = 0; i < 12; i++) {
+          //每月的数组
+          // var obj = {}, newArr = []
+          // a_year_bill_data[i].forEach(function (item, suffix) {
+          //   //根据对象的属性是唯一的，将值作为对象的属性名
+          //   if (!obj[item.day]) {
+          //     var arr = [];
+          //     arr.push(item);
+          //     newArr.push(arr);
+          //     obj[item.day] = item;
+          //   } else {
+          //     newArr.forEach(function (value, index) {
+          //       //如果已经存在  就循环新组的值将值插入属性相同的数组 为了防止重复添加   只要和第一个比较就可以了
+          //       if (value[0].day == item.day) {
+          //         value.push(item)
+          //       }
+          //     })
+          //   }
+          // })
+          // console.log(obj);
+          // console.log(newArr)
+
+
           tempArrArr[i] = Array.from(a_year_bill_data[i])
+
+          tempArrArr[i].sort(function(a,b){
+            return Number(b.day)-Number(a.day)
+          })
         }
 
         //moths 集合转数组
         var tempArr;
         var tempArr = Array.from(monthSet)
-        tempArr.sort().reverse()
+        tempArr.sort(function (a, b) {
+          return b - a
+        })
+        // console.log("月份排序数组",tempArr)
 
 
 
@@ -311,9 +358,10 @@ Page({
           a_year_bill_data_Arr: tempArrArr,
           monthsCost: tMsCt,
           monthsIncome: tMsIc,
+          monthsNet:tMsNet,
           emptyYearPage: false,
-          dayCost: dayCost,
-          dayIncome: dayIncome,
+          // dayCost: dayCost,
+          // dayIncome: dayIncome,
           TypeKeyPair: yearTypeStatistic,
           yearsIdx: yearsIdx
         })
@@ -324,152 +372,25 @@ Page({
           a_year_bill_data_Arr: [],
           months: [],
           emptyYearPage: true,
-          dayCost: "-- ",
-          dayIncome: "-- ",
+          // dayCost: "-- ",
+          // dayIncome: "-- ",
           yearsIdx: yearsIdx
         })
       }
-     wx.hideLoading()
-   }).catch((e) => {      
-     wx.hideLoading()
-     wx.showToast({
+      wx.hideLoading()
+    }).then(function () {
+      //  console.log("try")
+
+    }).catch((e) => {
+      wx.hideLoading()
+      wx.showToast({
         title: '查询失败',
         icon: 'none'
       })
       console.error("数据库查询失败：", e)
-   })
+    })
 
-//refreshPage结束了
-
-
-
-
-
-
-
-
-
-
-
-///////////////////////////////////////////////////
-
-    // db.collection('account_bill').where({
-    //   year: that.data.years[yearsIdx] //页面选择的年份
-
-    // }).get({
-    //   complete: res => {},
-    //   success: res => {
-    //     console.log("list有啥", res.data.length)
-
-    //     if (res.data.length != 0) {
-    //       console.log("按年份查询成功 - refreshPage", res.data)
-
-    //       let monthSet = new Set()
-    //       // 遍历每一条记录
-    //       // console.log("res.data",res.data)
-    //       let a_year_bill_data = new Array()
-    //       for (i = 0; i < 12; i++) {
-    //         a_year_bill_data[i] = new Set()
-    //       }
-    //       var tMsCt = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-    //       var tMsIc = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-
-    //       // 既然刷新页面就应该重新计算
-    //       var dayCost = 0
-    //       var dayIncome = 0
-    //       // console.log("执行到这里-1",dayCost,dayIncome)
-    //       ///////////////////////////////////////////////每条信息的循环/////////////////////////////////////////////
-    //       // console.log("执行到这里",res.data.length)
-    //       var i
-    //       var yearTypeStatistic = this.data.TypeKeyPair
-    //       //必须要清空
-    //       var keysOfTypePair = Object.keys(this.data.TypeKeyPair)
-    //       var keysNum = Object.keys(this.data.TypeKeyPair).length
-    //       for (i = 0; i < keysNum; i++) {
-    //         yearTypeStatistic[keysOfTypePair[i]].tempSumOfAyear = 0
-    //       }
-    //       for (i = 0; i < res.data.length; i++) {
-    //         // console.log("能不能进入循环？")
-
-    //         //年份统计，年度分类数据
-    //         yearTypeStatistic[res.data[i].type].tempSumOfAyear += res.data[i].money
-    //         // console.log("come on !!!")
-
-
-    //         //准备好month数组，收集出现过的月份          
-    //         monthSet.add(Number(res.data[i].month))
-
-    //         //对应月份的数据加进去（按月份整理到   a_year_bill_data ）       
-    //         a_year_bill_data[Number(res.data[i].month) - 1].add(res.data[i]) //坑坑！！！this.data!!!! //再次坑坑“-1”
-
-    //         //每月收支统计
-    //         if (res.data[i].coi == "cost") {
-    //           tMsCt[Number(res.data[i].month) - 1] += res.data[i].money;
-    //         } else {
-    //           tMsIc[Number(res.data[i].month) - 1] += res.data[i].money;
-    //         }
-
-
-
-    //         // console.log("只能出现今天的日期",res.data[i].year+"-"+res.data[i].month+"-"+res.data[i].day)
-    //         //今日cost and income
-    //         if (res.data[i].year + "-" + res.data[i].month + "-" + res.data[i].day == that.data.today) {
-    //           if (res.data[i].coi == "cost") dayCost += res.data[i].money
-    //           else dayIncome += res.data[i].money
-    //         }
-    //         // console.log("这句话为什么不出现？？？？")
-    //         // console.log("本日支出收入",dayCost,dayIncome)
-
-
-
-    //       }
-    //       ////////////////////////////////////////////  end for  /////////////////////////////////////////////////////////
-
-    //       let tempArrArr = new Array()
-    //       for (i = 0; i < 12; i++) {
-    //         tempArrArr[i] = Array.from(a_year_bill_data[i])
-    //       }
-
-    //       //moths 集合转数组
-    //       var tempArr;
-    //       var tempArr = Array.from(monthSet)
-    //       tempArr.sort().reverse()
-
-
-
-    //       // 把他弄成只渲染一次！！
-    //       that.setData({
-    //         months: tempArr,
-    //         a_year_bill_data_Arr: tempArrArr,
-    //         monthsCost: tMsCt,
-    //         monthsIncome: tMsIc,
-    //         emptyYearPage: false,
-    //         dayCost: dayCost,
-    //         dayIncome: dayIncome,
-    //         TypeKeyPair: yearTypeStatistic,
-    //         yearsIdx: yearsIdx
-    //       })
-    //     } else {
-    //       //当前年页没有数据
-    //       console.log("当前年页没有数据")
-    //       that.setData({
-    //         a_year_bill_data_Arr: [],
-    //         months: [],
-    //         emptyYearPage: true,
-    //         dayCost: "-- ",
-    //         dayIncome: "-- ",
-    //         yearsIdx: yearsIdx
-    //       })
-    //     }
-    //   },
-    //   fail: err => {
-    //     wx.showToast({
-    //       title: '查询失败',
-    //       icon: none
-    //     })
-    //     console.error("数据库查询失败：", err)
-    //   }
-    // })
+    //refreshPage结束了
   },
 
   refreshMonthsArr() {
@@ -518,22 +439,57 @@ Page({
 
 
   onLoad() {
-    
+
     wx.setNavigationBarTitle({
       title: '记账'
     })
 
+
+    // 类型数组初始化
+    var costTypeList = new Array();
+    var incomeTypeList = new Array();
+    // var keysArr = Object.keys(this.data.TypeKeyPair)
+    var TypeKeyPair = this.data.TypeKeyPair
+    // console.log("keys",keys)
+    Object.keys(TypeKeyPair).forEach(function (key) {
+      // console.log(key,TypeKeyPair[key]);
+      if (TypeKeyPair[key].coi == "cost") {
+        costTypeList.push({
+          "sym": key,
+          "name": TypeKeyPair[key].name
+        })
+      } else {
+        incomeTypeList.push({
+          "sym": key,
+          "name": TypeKeyPair[key].name
+        })
+      }
+    });
+    // console.log(costTypeList,incomeTypeList)
+
+    // var windowHeight  
+    // wx.getSystemInfo({
+    //   success: (result) => {
+    //     windowHeight=result.windowHeight
+    //   },
+    // })
     this.setData({
-      haveGetOpenId: true, //该变量即将删除
-      envId: this.data.selectedEnv.envId
+      // haveGetOpenId: true, //该变量即将删除
+      envId: this.data.selectedEnv.envId,
+      costTypeList: costTypeList,
+      incomeTypeList: incomeTypeList,
+      // windowHeight:windowHeight
     })
-    console.log("加载。envID",this.data.envId)
+    console.log("加载。envID", this.data.envId)
 
     this.initPage()
   },
-  onShow() {
-
-  },
+  // onReady() {
+  //   this.setData({
+  //     containerMonth9:() => wx.createSelectorQuery().select('#id9'),
+  //     cc:() => wx.createSelectorQuery().select('#id')
+  //   })
+  // },
 
 
   //ISO日期的字符串拼接
@@ -557,12 +513,12 @@ Page({
     })
 
   },
-  async login() {
-    //登录功能
-    var that = this
-    await that.getOpenId()
-    that.initPage()
-  },
+  // async login() {
+  //   //登录功能
+  //   var that = this
+  //   await that.getOpenId()
+  //   that.initPage()
+  // },
 
   writeABillPopup(e) {
 
@@ -693,126 +649,127 @@ Page({
           // console.log("这一年存不存在？",hasThatYear)
 
           //年页数据库为空？
-          if (this.data.emptyYearPage) {
-            this.refreshYear()
-            this.refreshPage()
-            return;
-          }
+          // if (this.data.emptyYearPage) {
+          this.refreshYear()
+          this.refreshPage()
+          //   return;
+          // }
 
 
 
-          //////////////////////////////////////////////////////////////////
-          /***********       避免频繁查询数据库时的优化操作      ************/
+          // //////////////////////////////////////////////////////////////////
+          // /***********       避免频繁查询数据库时的优化操作      ************/
 
-          //是不是今天的数据？
-          var dayIcome = this.data.dayIncome
-          var dayCost = this.data.dayCost
-          // console(dateArr,this.data.today)
-          if (this.data.date == this.data.today) {
-            if (coi == "cost") {
-              dayCost += num_mon
-            } else {
-              dayIcome += num_mon
-            }
-          }
-
-
-          //如果年份是新的，直接假装加入年份选择列表（注意，把条目的ID也加进去，因为要查找
-          var that = this
-          if (!hasThatYear) {
-            //不是一开始的
-            if (!isBegin) {
-              var tArr = this.data.years
-              var beforeYear = Number(this.data.years[this.data.yearsIdx])
-              var offset = 0
-              if (beforeYear < Number(year)) offset = 1
-              var yearIdx = this.data.yearsIdx + offset
-
-              tArr.push(year)
-              tArr.sort().reverse()
+          // //是不是今天的数据？
+          // var dayIcome = this.data.dayIncome
+          // var dayCost = this.data.dayCost
+          // // console(dateArr,this.data.today)
+          // if (this.data.date == this.data.today) {
+          //   if (coi == "cost") {
+          //     dayCost += num_mon
+          //   } else {
+          //     dayIcome += num_mon
+          //   }
+          // }
 
 
-              this.setData({
-                years: tArr,
-                //这些日数据要加
-                dayCost: dayCost,
-                dayIncome: dayIcome,
-                yearIdx: yearIdx
-              })
-            } else { //一开始的，数据库第一条数据
-              that.initPage()
-            }
+          // //如果年份是新的，直接假装加入年份选择列表（注意，把条目的ID也加进去，因为要查找
+          // var that = this
+          // if (!hasThatYear) {
+          //   //不是一开始的
+          //   if (!isBegin) {
+          //     var tArr = this.data.years
+          //     var beforeYear = Number(this.data.years[this.data.yearsIdx])
+          //     var offset = 0
+          //     if (beforeYear < Number(year)) offset = 1
+          //     var yearIdx = this.data.yearsIdx + offset
+
+          //     tArr.push(year)
+          //     tArr.sort().reverse()
 
 
-          } else { //年份不是新的    
-            var isTheSelectedYear = false
-            if (this.data.years[this.data.yearsIdx] == year) isTheSelectedYear = true
-            if (isTheSelectedYear) {
-              //是所选的年份，直接假装加入账单列表（附带渲染了）
-
-              //一、准备好每月的数据条目
-              var arr = this.data.a_year_bill_data_Arr
-              arr[Number(month) - 1].push({
-                "_id": res._id,
-                //我没加openID
-                "coi": coi,
-                "day": day,
-                "money": num_mon,
-                "month": month,
-                "remark": remark,
-                "type": type,
-                "year": year
-              })
-
-              //二、准备好当前月的统计数统计数
-              var tArrMonthIorC = (coi == "cost") ? this.data.monthsCost : this.data.monthsIncome
-              tArrMonthIorC[Number(month) - 1] += num_mon
-
-              //三、年统计需要增加数据
-              var tempPair = this.data.TypeKeyPair
-              tempPair[type].tempSumOfAyear += num_mon
-
-              if (coi == "cost") {
-                this.setData({
-                  a_year_bill_data_Arr: arr,
-                  monthsCost: tArrMonthIorC,
-                  emptyYearPage: false,
-                  // months:tArrAddMonth
-                  //这些日数据要加
-                  dayCost: dayCost,
-                  dayIncome: dayIcome,
-                  //年统计
-                  TypeKeyPair: tempPair
-                })
-              } else {
-                this.setData({
-                  a_year_bill_data_Arr: arr,
-                  monthsIncome: tArrMonthIorC,
-                  emptyYearPage: false,
-                  // months:tArrAddMonth
-                  //这些日数据要加
-                  dayCost: dayCost,
-                  dayIncome: dayIcome,
-                  //年统计
-                  TypeKeyPair: tempPair
-                })
-              }
-              //四、准备好更新存在的月份
-              this.refreshMonthsArr()
-              // console.log(this.data.a_year_bill_data_Arr)
+          //     this.setData({
+          //       years: tArr,
+          //       //这些日数据要加
+          //       dayCost: dayCost,
+          //       dayIncome: dayIcome,
+          //       yearIdx: yearIdx
+          //     })
+          //   } else { //一开始的，数据库第一条数据
+          //     that.initPage()
+          //   }
 
 
+          // } else { //年份不是新的    
+          //   var isTheSelectedYear = false
+          //   if (this.data.years[this.data.yearsIdx] == year) isTheSelectedYear = true
+          //   if (isTheSelectedYear) {
+          //     //是所选的年份，直接假装加入账单列表（附带渲染了）
+
+          //     //一、准备好每月的数据条目
+          //     var arr = this.data.a_year_bill_data_Arr
+          //     arr[Number(month) - 1].push({
+          //       "_id": res._id,
+          //       //我没加openID
+          //       "coi": coi,
+          //       "day": day,
+          //       "money": num_mon,
+          //       "month": month,
+          //       "remark": remark,
+          //       "type": type,
+          //       "year": year
+          //     })
+
+          //     //二、准备好当前月的统计数统计数
+          //     var tArrMonthIorC = (coi == "cost") ? this.data.monthsCost : this.data.monthsIncome
+          //     tArrMonthIorC[Number(month) - 1] += num_mon
+          //     tArrMonthIorC[Number(month) - 1]=tArrMonthIorC[Number(month) - 1].toFixed(2)
+
+          //     //三、年统计需要增加数据
+          //     var tempPair = this.data.TypeKeyPair
+          //     tempPair[type].tempSumOfAyear += num_mon
+
+          //     if (coi == "cost") {
+          //       this.setData({
+          //         a_year_bill_data_Arr: arr,
+          //         monthsCost: tArrMonthIorC,
+          //         emptyYearPage: false,
+          //         // months:tArrAddMonth
+          //         //这些日数据要加
+          //         dayCost: dayCost,
+          //         dayIncome: dayIcome,
+          //         //年统计
+          //         TypeKeyPair: tempPair
+          //       })
+          //     } else {
+          //       this.setData({
+          //         a_year_bill_data_Arr: arr,
+          //         monthsIncome: tArrMonthIorC,
+          //         emptyYearPage: false,
+          //         // months:tArrAddMonth
+          //         //这些日数据要加
+          //         dayCost: dayCost,
+          //         dayIncome: dayIcome,
+          //         //年统计
+          //         TypeKeyPair: tempPair
+          //       })
+          //     }
+          //     //四、准备好更新存在的月份
+          //     this.refreshMonthsArr()
+          //     // console.log(this.data.a_year_bill_data_Arr)
 
 
-            } else { //不是所选的年份，只关心日期
-              //do nothing
-              this.setData({
-                //这些日数据要加
-                dayCost: dayCost,
-                dayIncome: dayIcome
-              })
-            }
-          }
+
+
+          //   } else { //不是所选的年份，只关心日期
+          //     //do nothing
+          //     this.setData({
+          //       //这些日数据要加
+          //       dayCost: dayCost,
+          //       dayIncome: dayIcome
+          //     })
+          //   }
+          // }
 
         },
         fail: err => {
@@ -1010,49 +967,6 @@ Page({
     }
   },
 
-
-
-  //从getOpenID搬迁
-  async getOpenId() {
-    // return new Promise(function(resolve,reject){
-
-    wx.showLoading({
-      title: '获取openID中',
-    })
-
-    wx.cloud.callFunction({
-      name: 'quickstartFunctions',
-      config: {
-        env: this.data.envId
-      },
-      data: {
-        type: 'getOpenId'
-      }
-    }).then((resp) => {
-      this.setData({
-        haveGetOpenId: true,
-        openId: resp.result.openid
-      })
-      wx.hideLoading()
-      console.log("获取到的openID为", this.data.openId)
-      console.log("是否获取到openID", this.data.haveGetOpenId)
-    }).catch((e) => {
-      this.setData({
-        showUploadTip: true
-      })
-      wx.hideLoading()
-    })
-    //   resolve()
-    // })
-  },
-
-  clearOpenId() {
-    this.setData({
-      haveGetOpenId: false,
-      openId: ''
-    })
-  },
-
   cancelMod() {
     this.setData({
       id_showModForm: ''
@@ -1074,6 +988,13 @@ Page({
     }
     wx.navigateTo({
       url: '../accounts_sta/accounts_sta?data=' + JSON.stringify(this.data.TypeKeyPair) + '&year=' + this.data.years[this.data.yearsIdx],
+    })
+  },
+
+
+  toTop() {
+    wx.pageScrollTo({
+      scrollTop: 0
     })
   }
 
